@@ -6,6 +6,7 @@ import {
 } from '../../state/hardwareSimulationState';
 import { calculateMaxAngularSpeed } from '../../physics/Calculations';
 import './HardwareSimulationData.css';
+import { useEffect } from 'react';
 
 function HardwareSimulationData() {
   const [maxMotorTorque, setMaxMotorTorque] =
@@ -14,12 +15,16 @@ function HardwareSimulationData() {
   const [absMaxSpeed, setAbsMaxSpeed] = useRecoilState(absMaxSpeedState);
 
   const updateMaxSpeed = (newMaxMotorTorque) => {
-    const newMaxSpeed = calculateMaxAngularSpeed(newMaxMotorTorque);
+    const newMaxSpeed = parseInt(calculateMaxAngularSpeed(newMaxMotorTorque));
     if (newMaxSpeed > maxSpeed) {
       setMaxSpeed(newMaxSpeed);
     }
     setAbsMaxSpeed(newMaxSpeed);
   };
+
+  useEffect(() => {
+    updateMaxSpeed(maxMotorTorque)
+  }, []);
 
   return (
     <div className="hardware-simulation-data">
